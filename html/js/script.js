@@ -20,6 +20,8 @@ const editInput = document.querySelector("#edit-input");
 const cancelEditBtn = document.querySelector("#cancel-edit-btn");
 const eraseBtn = document.querySelector("#erase-button");
 
+let dados = [];
+
 //Funções
 const saveTodo = (text) => {
   const todo = document.createElement("div");
@@ -39,14 +41,61 @@ const saveTodo = (text) => {
   deletBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
   todo.appendChild (deletBtn);
 
+  const testBtn = document.createElement("button");
+  testBtn.innerText = 'teste';
+  todo.appendChild(testBtn);
+
   todoList.appendChild(todo);
 
   todoInput.value = "";
   todoInput.focus();
+ 
+  dados.push(text);
+  let data = JSON.stringify(dados)
+  localStorage.setItem('pokemons', data);
+  
+  
+}
+debugger
+function lista(){
+  dados = JSON.parse(localStorage.getItem('pokemons'));
+  
+    return saveList(dados);
+  
+}
 
+const saveList = (dados) => {
+  
+  lista();
+  const todo = document.createElement("div");
+  todo.classList.add("todo");
+
+  const todoTitle = document.createElement("h3");
+  todoTitle.innerText = dados;
+  todo.appendChild(todoTitle);
+
+  const editBtn = document.createElement("button");
+  editBtn.classList.add("edit-todo");
+  editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
+  todo.appendChild(editBtn);
+
+  const deletBtn = document.createElement("button");
+  deletBtn.classList.add("remove-todo");
+  deletBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+  todo.appendChild (deletBtn);
+
+  const testBtn = document.createElement("button");
+  testBtn.innerText = 'teste';
+  todo.appendChild(testBtn);
+
+  todoList.appendChild(todo);
+ 
 }
 
 //Eventos
+
+
+
 todoForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
