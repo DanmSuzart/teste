@@ -12,6 +12,8 @@ function logar(){
   }
 }
 
+
+
 const todoForm = document.querySelector("#todo-form");
 const todoInput = document.querySelector("#todo-input");
 const todoList = document.querySelector("#todo-list");
@@ -24,6 +26,7 @@ let dados = [];
 
 //Funções
 const saveTodo = (text) => {
+  
   const todo = document.createElement("div");
   todo.classList.add("todo");
 
@@ -51,60 +54,71 @@ const saveTodo = (text) => {
   todoInput.focus();
  
   dados.push(text);
-  let data = JSON.stringify(dados)
+  let data = JSON.stringify(dados);
   localStorage.setItem('pokemons', data);
   
-  
-}
-debugger
-function lista(){
-  dados = JSON.parse(localStorage.getItem('pokemons'));
-  
-    return saveList(dados);
-  
-}
-
-const saveList = (dados) => {
-  
-  lista();
-  const todo = document.createElement("div");
-  todo.classList.add("todo");
-
-  const todoTitle = document.createElement("h3");
-  todoTitle.innerText = dados;
-  todo.appendChild(todoTitle);
-
-  const editBtn = document.createElement("button");
-  editBtn.classList.add("edit-todo");
-  editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
-  todo.appendChild(editBtn);
-
-  const deletBtn = document.createElement("button");
-  deletBtn.classList.add("remove-todo");
-  deletBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-  todo.appendChild (deletBtn);
-
-  const testBtn = document.createElement("button");
-  testBtn.innerText = 'teste';
-  todo.appendChild(testBtn);
-
-  todoList.appendChild(todo);
  
 }
 
 //Eventos
 
+  todoForm.addEventListener("submit", (e) => {
+    e.preventDefault();
 
+    const inputValue = todoInput.value;
 
-todoForm.addEventListener("submit", (e) => {
-  e.preventDefault();
+    if(inputValue){
+    saveTodo(inputValue);
+    }
+  });
 
-  const inputValue = todoInput.value;
+  if(localStorage != " "){
+   let dados = JSON.parse(localStorage.getItem('pokemons'));
 
-  if(inputValue){
-   saveTodo(inputValue);
+    for(i = 0; i <= dados.length; i++){
+      let dadosLista = dados[i];
+      todoForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+    
+        if(dadosLista){
+        saveTodo(dadosLista);
+        }
+      });
+          
+        const saveList = (text) => {
+  
+          const todo = document.createElement("div");
+          todo.classList.add("todo");
+        
+          const todoTitle = document.createElement("h3");
+          todoTitle.innerText = text;
+          todo.appendChild(todoTitle);
+        
+          const editBtn = document.createElement("button");
+          editBtn.classList.add("edit-todo");
+          editBtn.innerHTML = '<i class="fa-solid fa-pen"></i>';
+          todo.appendChild(editBtn);
+        
+          const deletBtn = document.createElement("button");
+          deletBtn.classList.add("remove-todo");
+          deletBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+          todo.appendChild (deletBtn);
+        
+          const testBtn = document.createElement("button");
+          testBtn.innerText = 'teste';
+          todo.appendChild(testBtn);
+        
+          todoList.appendChild(todo);
+        
+          todoInput.value = "";
+          todoInput.focus();
+         
+        }
+      saveList();
+    }
+  
   }
-});
+
 
 document.addEventListener("click", (e) => {
   const targetEl = e.target
